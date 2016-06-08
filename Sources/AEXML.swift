@@ -192,7 +192,7 @@ public class AEXMLElement {
         
         - returns: Child XML element with `self` as `parent`.
     */
-    public func addChild(name name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
+    public func addChild(name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
         let child = AEXMLElement(name, value: value, attributes: attributes)
         return addChild(child: child)
     }
@@ -468,24 +468,24 @@ private class AEXMLParser: NSObject, NSXMLParserDelegate {
     
     // MARK: NSXMLParserDelegate
     
-    @objc func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+    @objc func parser(_ parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         currentValue = String()
         currentElement = currentParent?.addChild(name: elementName, attributes: attributeDict)
         currentParent = currentElement
     }
     
-    @objc func parser(parser: NSXMLParser, foundCharacters string: String) {
+    @objc func parser(_ parser: NSXMLParser, foundCharacters string: String) {
         currentValue += string
         let newValue = currentValue.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines())
         currentElement?.value = newValue == String() ? nil : newValue
     }
     
-    @objc func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    @objc func parser(_ parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         currentParent = currentParent?.parent
         currentElement = nil
     }
     
-    @objc func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+    @objc func parser(_ parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         self.parseError = parseError
     }
     
