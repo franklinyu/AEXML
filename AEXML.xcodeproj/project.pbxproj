@@ -392,12 +392,14 @@
 					};
 					8B4A92891BDD49390011F36F = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0800;
 					};
 					8B4A92981BDD4CEF0011F36F = {
 						CreatedOnToolsVersion = 7.1;
 					};
 					8B4A92AA1BDD54F50011F36F = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0800;
 					};
 					8B4A92BD1BDD5B300011F36F = {
 						CreatedOnToolsVersion = 7.1;
@@ -632,6 +634,7 @@
 				PRODUCT_NAME = AEXML;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -657,6 +660,7 @@
 				PRODUCT_NAME = AEXML;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -700,6 +704,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-OSX-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -717,6 +722,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-OSX-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
