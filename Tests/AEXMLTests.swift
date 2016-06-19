@@ -40,23 +40,22 @@ class AEXMLTests: XCTestCase {
         return bundle.urlForResource(fileName, withExtension: withExtension)!
     }
     
-    func xmlDocumentFromURL(_ url: NSURL) -> AEXMLDocument {
+    func xmlDocumentFromURL(_ url: URL) -> AEXMLDocument {
         var xmlDocument = AEXMLDocument()
         
-        if let data = Data(contentsOf: url) {
-            do {
-                xmlDocument = try AEXMLDocument(xmlData: data)
-            } catch {
-                print(error)
-            }
+        do {
+            let data = try Data(contentsOf: url)
+            xmlDocument = try AEXMLDocument(xmlData: data)
+        } catch {
+            print(error)
         }
         
         return xmlDocument
     }
     
     func readXMLFromFile(_ filename: String) -> AEXMLDocument {
-        let url = URLForResource(fileName: filename, withExtension: "xml")
-        return xmlDocumentFromURL(url: url)
+        let url = URLForResource(filename, withExtension: "xml")
+        return xmlDocumentFromURL(url)
     }
     
     // MARK: - Setup & Teardown
@@ -65,8 +64,8 @@ class AEXMLTests: XCTestCase {
         super.setUp()
         
         // create some sample xml documents
-        exampleXML = readXMLFromFile(filename: "example")
-        plantsXML = readXMLFromFile(filename: "plant_catalog")
+        exampleXML = readXMLFromFile("example")
+        plantsXML = readXMLFromFile("plant_catalog")
     }
     
     override func tearDown() {
@@ -84,7 +83,7 @@ class AEXMLTests: XCTestCase {
         
         let documentWithoutRootElement = AEXMLDocument()
         let rootElement = documentWithoutRootElement.root
-        XCTAssertEqual(rootElement.error, AEXMLElement.Error.RootElementMissing, "Should have RootElementMissing error.")
+        XCTAssertEqual(rootElement.error, AEXMLElement.Error.rootElementMissing, "Should have RootElementMissing error.")
     }
     
     func testParentElement() {
@@ -167,7 +166,7 @@ class AEXMLTests: XCTestCase {
     func testNotExistingElement() {
         // non-optional
         XCTAssertNotNil(exampleXML.root["ducks"]["duck"].error, "Should contain error inside element which does not exist.")
-        XCTAssertEqual(exampleXML.root["ducks"]["duck"].error, AEXMLElement.Error.ElementNotFound, "Should have ElementNotFound error.")
+        XCTAssertEqual(exampleXML.root["ducks"]["duck"].error, AEXMLElement.Error.elementNotFound, "Should have ElementNotFound error.")
         XCTAssertEqual(exampleXML.root["ducks"]["duck"].stringValue, String(), "Should have empty value.")
         
         // optional
@@ -222,7 +221,7 @@ class AEXMLTests: XCTestCase {
         cats.addChild(name: "cat", value: "Tinna")
         
         var count = 0
-        if let tinnas = cats["cat"].allWithValue(value: "Tinna") {
+        if let tinnas = cats["cat"].allWithValue("Tinna") {
             for _ in tinnas {
                 count += 1
             }
@@ -232,7 +231,7 @@ class AEXMLTests: XCTestCase {
     
     func testAllWithAttributes() {
         var count = 0
-        if let bulls = exampleXML.root["dogs"]["dog"].allWithAttributes(attributes: ["color" : "white"]) {
+        if let bulls = exampleXML.root["dogs"]["dog"].allWithAttributes(["color" : "white"]) {
             for _ in bulls {
                 count += 1
             }
@@ -319,7 +318,7 @@ class AEXMLTests: XCTestCase {
     
     func testReadXMLPerformance() {
         self.measure() {
-            _ = self.readXMLFromFile(filename: "plant_catalog")
+            _ = self.readXMLFromFile("plant_catalog")
         }
     }
     
